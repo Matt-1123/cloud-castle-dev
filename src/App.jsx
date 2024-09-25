@@ -6,28 +6,23 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
 
+  const thumbnail = document.querySelectorAll(".thumbnail")
+  console.log(thumbnail);
+
+  // setCount > 0 ? 
+
   return (
+    // <html><body><h1>Welcome to Cloud Castle Dev</h1><p>Testing site for AWS training</p><img src='https://img-38se4389gs9838pfsc.s3.amazonaws.com/magic.gif' alt='magic meme' style='width:240px;height:240px;'></body></html>
+    
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
+      <h1>Cloud Castle Dev</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        <img className='thumbnail' src="https://img-38se4389gs9838pfsc.s3.amazonaws.com/magic.gif" alt="'magic' gif" style={{ visibility: count > 0 ? 'visible': 'hidden'}} />
+        <p>Testing site for AWS training</p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
