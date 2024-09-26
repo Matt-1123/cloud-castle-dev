@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import Button from '@mui/material/Button';
 import './App.css'
 
 function App() {
@@ -17,9 +16,9 @@ function App() {
     <>
       <h1>Cloud Castle Dev</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <Button variant="outlined" color="primary" className="btn" onClick={() => setCount((count) => count + 1)}>
           count is {count}
-        </button>
+        </Button>
         <img className='thumbnail' src="https://img-38se4389gs9838pfsc.s3.amazonaws.com/magic.gif" alt="'magic' gif" style={{ visibility: count > 0 ? 'visible': 'hidden'}} />
         <p>Testing site for AWS training</p>
       </div>

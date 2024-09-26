@@ -5,9 +5,9 @@
   text-align: center;
 }
 
-button {
-  display: block;
-  margin: 1em auto;
+.btn {
+  display: block!important;
+  margin: 1em auto!important;
 }
 
 .thumbnail {
