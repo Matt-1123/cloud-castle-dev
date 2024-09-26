@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+.icon {
+  width: 20%;
+}
+
 .btn {
   display: block!important;
   margin: 1em auto!important;
