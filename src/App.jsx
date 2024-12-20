@@ -49,8 +49,10 @@ function App() {
               </TableRow>
             </TableHead>
             <TableBody>
-              
-              
+              <TableRow>
+                <TableCell>12/20/24</TableCell>
+                <TableCell >Update title and favicon</TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
