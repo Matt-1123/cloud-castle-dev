@@ -15,6 +15,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+// Logs
+import Logs from './components/Logs'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -39,6 +41,7 @@ function App() {
       <Divider variant="middle" style={{ backgroundColor: "#fff" }} />
 
       <h2>Logs</h2>
+      <Logs />
       <div className="card">
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
