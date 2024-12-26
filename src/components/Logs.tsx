@@ -9,13 +9,19 @@ const client = generateClient<Schema>()
 export default function LogList() {
   const [logs, setLogs] = useState<Schema["Log"]["type"][]>([]);
 
-  const fetchLogs = async () => {
-    const { data: items, errors } = await client.models.Log.list();
-    setLogs(items);
-  };
+  // const fetchLogs = async () => {
+  //   const { data: items, errors } = await client.models.Log.list();
+  //   setLogs(items);
+  // };
 
   useEffect(() => {
-    fetchLogs();
+    const sub = client.models.Log.observeQuery().subscribe({
+      next: ({ items }) => {
+        setLogs([...items]);
+      },
+    });
+
+    return () => sub.unsubscribe();
   }, []);
   
   const createLog = async () => {
@@ -23,8 +29,6 @@ export default function LogList() {
       content: window.prompt("Log content?")
     })
   }
-
-  fetchLogs();
 
   return (<>
     <Button onClick={createLog}>Submit Log</Button>
