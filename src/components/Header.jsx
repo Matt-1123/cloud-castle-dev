@@ -1,3 +1,4 @@
+import { Outlet, Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -6,7 +7,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
-export default function ButtonAppBar() {
+export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -23,8 +24,17 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Cloud Castle Dev
           </Typography>
-          <Button color="inherit" disabled>Login</Button>
+          <Button color="inherit">
+            <Link to="/">Home</Link>
+          </Button>
+          <Button color="inherit">
+            <Link to="/login">Login</Link>
+          </Button>
+          <Button color="inherit">
+            <Link to="/register">Register</Link>
+          </Button>
         </Toolbar>
+        <Outlet/>
       </AppBar>
     </Box>
   );
