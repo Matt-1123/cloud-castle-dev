@@ -10,7 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar sx={{ bgcolor: "transparent" }} position="static">
         <Toolbar>
           <IconButton
             size="large"
@@ -24,13 +24,10 @@ export default function Header() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Cloud Castle Dev
           </Typography>
-          <Button color="inherit">
+          <Button color="secondary">
             <Link to="/">Home</Link>
           </Button>
-          <Button color="inherit">
-            <Link to="/login">Login</Link>
-          </Button>
-          <Button color="inherit">
+          <Button variant="outlined">
             <Link to="/register">Register</Link>
           </Button>
         </Toolbar>
