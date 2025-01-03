@@ -2,6 +2,7 @@
 
 ## Frontend 
 * React + Vite
+* Material UI
 
 ## Backend
 * AWS Amplify
