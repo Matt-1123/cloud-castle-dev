@@ -31,18 +31,6 @@ function App() {
   const thumbnail = document.querySelectorAll(".thumbnail")
   console.log(thumbnail);
 
-  useEffect(() => {
-    const sub = client.models.User.observeQuery().subscribe({
-      next: ({ items }) => {
-        setName([...items]);
-      },
-    });
-
-    console.log(...name)
-
-    return () => sub.unsubscribe();
-  }, []);
-
   const createName = async () => {
     await client.models.User.create({
       name: window.prompt("Enter your name:")
