@@ -52,7 +52,8 @@ function App() {
 
   return (
     <>
-      <Header user={user}/>
+      {/* <Header user={user}/> */}
+      <Header />
       <div className="card">
         <img className="icon" src={gateIcon} alt="gate icon" />
         {/* <p>Hello {user?.username}</p> */}
