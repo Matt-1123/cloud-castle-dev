@@ -40,6 +40,11 @@ export default function LogList() {
   }
 
   return (<>
+    <form>
+      <label>Enter a log: 
+        <input type="text" />
+      </label>
+    </form>
     <Button onClick={createLog}>Submit Log</Button>
     <div className="card">
       <TableContainer component={Paper}>

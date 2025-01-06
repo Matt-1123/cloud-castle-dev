@@ -30,13 +30,18 @@ function App() {
   console.log(`name: ${JSON.stringify(name)}`);
 
   const thumbnail = document.querySelectorAll(".thumbnail")
-  
-  const { signOut, user } = useAuthenticator(); 
+  console.log(thumbnail);
 
   useEffect(() => {
     const sub = client.models.User.observeQuery().subscribe({
-      next: (data) => setName([...data.items])
+      next: ({ items }) => {
+        setName([...items]);
+      },
     });
+
+    console.log(...name)
+
+    return () => sub.unsubscribe();
   }, []);
 
   const createName = async () => {

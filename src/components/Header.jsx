@@ -15,7 +15,7 @@ export default function Header(user) {
             Cloud Castle Dev
           </Typography>
           <Button color="secondary">
-            <Link to="/">Home</Link>
+            <Link to="/profile">My Profile</Link>
           </Button>
           {user ? <Button variant="outlined" onClick={signOut}>Sign Out
           </Button> : null}       
