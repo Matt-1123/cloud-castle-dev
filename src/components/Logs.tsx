@@ -12,10 +12,17 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import { Amplify } from 'aws-amplify'
+import outputs from "../../amplify_outputs.json"
 const client = generateClient<Schema>()
 
+Amplify.configure(outputs);
+
 export default function LogList() {
-  const [logs, setLogs] = useState<Schema["Log"]["type"][]>([]);
+  // const [logs, setLogs] = useState<Schema["Log"]["type"][]>([]);
+  const [logs, setLogs] = useState<Array<Schema["Log"]["type"]>>([]);
+
+  console.log(`logs: ${JSON.stringify(logs)}`)
 
   // const fetchLogs = async () => {
   //   const { data: items, errors } = await client.models.Log.list();
@@ -24,20 +31,12 @@ export default function LogList() {
 
   useEffect(() => {
     const sub = client.models.Log.observeQuery().subscribe({
-      next: ({ items }) => {
-        setLogs([...items]);
-      },
+      next: (data) => setLogs([...data.items])
     });
-
-    console.log(...logs)
-
-    return () => sub.unsubscribe();
   }, []);
   
-  const createLog = async () => {
-    await client.models.Log.create({
-      content: window.prompt("Log content?")
-    })
+  const createLog = () => {
+    client.models.Log.create({ content: window.prompt("Enter log:")})
   }
 
   return (<>
