@@ -9,9 +9,16 @@ and "delete" any "Todo" records.
 const schema = a.schema({
   Log: a
     .model({
-      content: a.string()
+      content: a.string(),
+      createdBy: a.string()
     })
-    .authorization((allow) => [allow.guest()]),
+    // [Model-level authorization rule]
+    // All fields (content, createdBy) will be protected by
+    // this authorization rule
+    .authorization((allow) => [
+      allow.publicApiKey().to(['read']),
+      allow.owner(),
+    ]),
   User: a
     .model({
       name: a.string(),
@@ -25,7 +32,8 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'userPool',
+    defaultAuthorizationMode: 'apiKey',
+    // defaultAuthorizationMode: 'userPool',
   },
 });
 

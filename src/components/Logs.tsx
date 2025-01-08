@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
 import type { Schema } from '../../amplify/data/resource'
