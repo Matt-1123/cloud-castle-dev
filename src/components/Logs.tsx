@@ -2,8 +2,8 @@ import React from 'react';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
-import type { Schema } from '../../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
+import type { Schema } from '../../amplify/data/resource'
 //table
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
