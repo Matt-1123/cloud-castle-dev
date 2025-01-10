@@ -26,10 +26,25 @@ Amplify.configure(outputs);
 
 function App() {
   const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
   // const [name, setName] = useState<Schema["User"]["type"][]>([])
   console.log(`name: ${JSON.stringify(name)}`);
 
   const thumbnail = document.querySelectorAll(".thumbnail")
+
+  function deleteTodo(id: string) {
+    client.models.Todo.delete({ id })
+  }
+
+  useEffect(() => {
+    client.models.Todo.observeQuery().subscribe({
+      next: (data) => setTodos([...data.items]),
+    });
+  }, []);
+
+  function createTodo() {
+    client.models.Todo.create({ content: window.prompt("Todo content") });
+  }
 
   // useEffect(() => {
   //   const sub = client.models.User.observeQuery().subscribe({
@@ -72,10 +87,16 @@ function App() {
       <Divider variant="middle" style={{ backgroundColor: "#fff" }} />
 
       <div className="card">
-        <h2>Logs</h2>
+        <h2>Todos</h2>
+        <button onClick={createTodo}>+ new</button>
+        <ul>
+          {todos.map((todo) => (
+            <li onClick={() => deleteTodo(todo.id)} key={todo.id}>{todo.content}</li>
+          ))}
+        </ul>
         {/* <Button onClick={createLog}>Submit Log (home pag test)</Button> */}
 
-        <Logs />
+        {/* <Logs /> */}
       </div>
     </>
   )
