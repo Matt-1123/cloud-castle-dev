@@ -26,6 +26,7 @@ Amplify.configure(outputs);
 
 function App() {
   const [count, setCount] = useState(0)
+  console.log('count', count)
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
   // const [name, setName] = useState<Schema["User"]["type"][]>([])
   console.log(`name: ${JSON.stringify(name)}`);

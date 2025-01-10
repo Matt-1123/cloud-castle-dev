@@ -6,6 +6,13 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization((allow) => [allow.owner()]),
+  User: a
+    .model({
+      name: a.string(),
+      bio: a.string(),
+      gold: a.integer().default(0).authorization(allow => [allow.owner().to(['read']),]),
+    })
+    .authorization((allow) => [allow.publicApiKey().to(['read']), allow.owner(),])
 });
 
 export type Schema = ClientSchema<typeof schema>;
