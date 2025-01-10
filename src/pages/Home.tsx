@@ -26,29 +26,32 @@ Amplify.configure(outputs);
 
 function App() {
   const [count, setCount] = useState(0)
-  const [name, setName] = useState<Schema["User"]["type"][]>([])
+  // const [name, setName] = useState<Schema["User"]["type"][]>([])
   console.log(`name: ${JSON.stringify(name)}`);
 
   const thumbnail = document.querySelectorAll(".thumbnail")
-  console.log(thumbnail);
 
-  useEffect(() => {
-    const sub = client.models.User.observeQuery().subscribe({
-      next: ({ items }) => {
-        setName([...items]);
-      },
-    });
+  // useEffect(() => {
+  //   const sub = client.models.User.observeQuery().subscribe({
+  //     next: ({ items }) => {
+  //       setName([...items]);
+  //     },
+  //   });
 
-    console.log(...name)
+  //   console.log(...name)
 
-    return () => sub.unsubscribe();
-  }, []);
+  //   return () => sub.unsubscribe();
+  // }, []);
 
-  const createName = async () => {
-    await client.models.User.create({
-      name: window.prompt("Enter your name:")
-    })
-  }
+  // const createName = async () => {
+  //   await client.models.User.create({
+  //     name: window.prompt("Enter your name:")
+  //   })
+  // }
+
+  // const createLog = async () => {
+  //   await client.models.Log.create({ content: window.prompt("Enter log:"), createdBy: "User"})
+  // }
 
   return (
     <>
@@ -57,8 +60,8 @@ function App() {
       <div className="card">
         <img className="icon-lg" src={gateIcon} alt="gate icon" />
         {/* <p>Hello {user?.username}</p> */}
-        <p>Hello {name[name.length - 1]?.name}</p>
-        <Button onClick={createName}>Add your name</Button>
+        {/* <p>Hello {name[name.length - 1]?.name}</p> */}
+        {/* <Button onClick={createName}>Add your name</Button> */}
         <Button variant="outlined" color="primary" className="btn" onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </Button>
@@ -70,6 +73,8 @@ function App() {
 
       <div className="card">
         <h2>Logs</h2>
+        {/* <Button onClick={createLog}>Submit Log (home pag test)</Button> */}
+
         <Logs />
       </div>
     </>
