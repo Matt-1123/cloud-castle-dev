@@ -2,8 +2,7 @@ import React from 'react';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
-import { generateClient } from 'aws-amplify/data'
-import type { Schema } from '../../amplify/data/resource'
+
 //table
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,10 +13,14 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import { Amplify } from 'aws-amplify'
+import type { Schema } from '../../amplify/data/resource'
+import { generateClient } from 'aws-amplify/data'
 import outputs from "../../amplify_outputs.json"
-const client = generateClient<Schema>()
 
 Amplify.configure(outputs);
+
+
+const client = generateClient<Schema>()
 
 export default function LogList() {
   // const [logs, setLogs] = useState<Schema["Log"]["type"][]>([]);

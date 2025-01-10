@@ -3,7 +3,8 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { signOut } from 'aws-amplify/auth';
 
 export default function Header(user) {
@@ -12,13 +13,12 @@ export default function Header(user) {
       <AppBar sx={{ bgcolor: "transparent" }} position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Cloud Castle Dev
-          </Typography>
-          <Button color="secondary">
-            <Link to="/profile">My Profile</Link>
-          </Button>
-          {user ? <Button variant="outlined" onClick={signOut}>Sign Out
-          </Button> : null}       
+            <Link to="/">Cloud Castle Dev</Link>
+          </Typography>  
+          <Link to="/profile">
+            <AccountCircleIcon className="icon" />
+          </Link>
+          {user ? <LogoutIcon className="icon" style={{ cursor: 'pointer' }} onClick={signOut} /> : null}       
         </Toolbar>
         <Outlet/>
       </AppBar>

@@ -55,7 +55,7 @@ function App() {
       {/* <Header user={user}/> */}
       <Header />
       <div className="card">
-        <img className="icon" src={gateIcon} alt="gate icon" />
+        <img className="icon-lg" src={gateIcon} alt="gate icon" />
         {/* <p>Hello {user?.username}</p> */}
         <p>Hello {name[name.length - 1]?.name}</p>
         <Button onClick={createName}>Add your name</Button>

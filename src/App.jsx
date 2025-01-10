@@ -3,11 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 // import Header from './components/Header'
-import { Amplify } from 'aws-amplify';
-import outputs from '../amplify_outputs.json';
-import '@aws-amplify/ui-react/styles.css';
 
-Amplify.configure(outputs);
+import '@aws-amplify/ui-react/styles.css';
 
 function App() {
   return (
