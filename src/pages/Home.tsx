@@ -28,6 +28,7 @@ function App() {
   const [count, setCount] = useState(0)
   console.log('count', count)
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [posts, setPosts] = useState<Array<Schema["Post"]["type"]>>([]);
   // const [name, setName] = useState<Schema["User"]["type"][]>([])
   console.log(`name: ${JSON.stringify(name)}`);
 
@@ -41,10 +42,18 @@ function App() {
     client.models.Todo.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
     });
+
+    client.models.Post.observeQuery().subscribe({
+      next: (data) => setPosts([...data.items])
+    })
   }, []);
 
   function createTodo() {
     client.models.Todo.create({ content: window.prompt("Todo content") });
+  }
+
+  function createPost() {
+    client.models.Post.create({ content: window.prompt("Post content") });
   }
 
   // useEffect(() => {
@@ -85,8 +94,6 @@ function App() {
         <p>Testing site for AWS training</p>
       </div>
       
-      <Divider variant="middle" style={{ backgroundColor: "#fff" }} />
-
       <div className="card">
         <h2>Todos</h2>
         <button onClick={createTodo}>+ new</button>
@@ -95,10 +102,18 @@ function App() {
             <li onClick={() => deleteTodo(todo.id)} key={todo.id}>{todo.content}</li>
           ))}
         </ul>
-        {/* <Button onClick={createLog}>Submit Log (home pag test)</Button> */}
-
-        {/* <Logs /> */}
+        
+        <h2>Posts</h2>
+        <button onClick={createPost}>+ new</button>
+        <ul>
+          {posts.map((post) => (
+            <li key={post.id}>{post.content}</li>
+          ))}
+        </ul>
       </div>
+
+      <Divider variant="middle" style={{ backgroundColor: "#fff" }} /> 
+      
     </>
   )
 }

@@ -12,8 +12,19 @@ const schema = a.schema({
       bio: a.string(),
       gold: a.integer().default(0).authorization(allow => [allow.owner().to(['read']),]),
     })
-    .authorization((allow) => [allow.publicApiKey().to(['read']), allow.owner(),])
-});
+    .authorization((allow) => [allow.publicApiKey().to(['read']), allow.owner(),]),
+  Post: a
+    .model({
+      content: a.string()
+    })
+    .authorization(allow => [
+      // Allow anyone auth'd with an API key to read everyone's posts.
+      allow.publicApiKey().to(['read']),
+      // Allow signed-in user to create, read, update,
+      // and delete their __OWN__ posts.
+      allow.owner(),
+    ])
+})
 
 export type Schema = ClientSchema<typeof schema>;
 
