@@ -9,6 +9,7 @@ import wizardIcon from '../assets/icons/wizard.png';
 //components
 import Header from '../components/Header'
 import Posts from '../components/Posts'
+import Todos from '../components/Todos'
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 // Auth
@@ -19,18 +20,15 @@ import outputs from "../../amplify_outputs.json";
 // Data
 import type { Schema } from '../../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
-const client = generateClient<Schema>(
-{authMode: 'apiKey',}
-)
+const client = generateClient<Schema>()
 
 Amplify.configure(outputs);
 
 function App() {
   const [count, setCount] = useState(0)
   console.log('count', count)
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  // const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
   // const [name, setName] = useState<Schema["User"]["type"][]>([])
-  console.log(`name: ${JSON.stringify(name)}`);
 
   const thumbnail = document.querySelectorAll(".thumbnail")
 
@@ -38,15 +36,7 @@ function App() {
     client.models.Todo.delete({ id })
   }
 
-  useEffect(() => {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
-    });
-
-    // client.models.Post.observeQuery().subscribe({
-    //   next: (data) => setPosts([...data.items])
-    // },{ authMode: 'apiKey' })
-  }, []);
+  
 
   function createTodo() {
     client.models.Todo.create({ content: window.prompt("Todo content") });
@@ -54,11 +44,7 @@ function App() {
 
   function createPost() {
     client.models.Post.create({ 
-      content: window.prompt("Post content"),
-      // authMode: 'apiKey',
-    },
-    {
-      authMode: 'userPool'
+      content: window.prompt("Post content")
     })
   }
 
@@ -103,11 +89,7 @@ function App() {
       <div className="card">
         <h2>Todos</h2>
         <button onClick={createTodo}>+ new</button>
-        <ul>
-          {todos.map((todo) => (
-            <li onClick={() => deleteTodo(todo.id)} key={todo.id}>{todo.content}</li>
-          ))}
-        </ul>
+        <Todos />
         
         <h2>Posts</h2>
         <button onClick={createPost}>+ new</button>
