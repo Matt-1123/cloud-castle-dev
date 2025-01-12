@@ -1,6 +1,16 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { postConfirmation } from "../auth/post-confirmation/resource";
 
 const schema = a.schema({
+  UserProfile: a
+    .model({
+      email: a.string(),
+      profileOwner: a.string(),
+      gold: a.integer()
+    })
+    .authorization((allow) => [
+      allow.ownerDefinedIn("profileOwner"),
+    ]),
   Todo: a
     .model({
       content: a.string(),
@@ -25,6 +35,7 @@ const schema = a.schema({
       allow.owner(),
     ])
 })
+.authorization((allow) => [allow.resource(postConfirmation)]);
 
 export type Schema = ClientSchema<typeof schema>;
 
