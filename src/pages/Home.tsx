@@ -8,10 +8,9 @@ import gateIcon from '../assets/icons/gate.png';
 import wizardIcon from '../assets/icons/wizard.png';
 //components
 import Header from '../components/Header'
+import Posts from '../components/Posts'
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-// Logs
-import Logs from '../components/Logs'
 // Auth
 import { Amplify } from 'aws-amplify';
 import { useAuthenticator } from '@aws-amplify/ui-react';
@@ -20,7 +19,9 @@ import outputs from "../../amplify_outputs.json";
 // Data
 import type { Schema } from '../../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
-const client = generateClient<Schema>()
+const client = generateClient<Schema>(
+{authMode: 'apiKey',}
+)
 
 Amplify.configure(outputs);
 
@@ -28,7 +29,6 @@ function App() {
   const [count, setCount] = useState(0)
   console.log('count', count)
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-  const [posts, setPosts] = useState<Array<Schema["Post"]["type"]>>([]);
   // const [name, setName] = useState<Schema["User"]["type"][]>([])
   console.log(`name: ${JSON.stringify(name)}`);
 
@@ -43,9 +43,9 @@ function App() {
       next: (data) => setTodos([...data.items]),
     });
 
-    client.models.Post.observeQuery().subscribe({
-      next: (data) => setPosts([...data.items])
-    })
+    // client.models.Post.observeQuery().subscribe({
+    //   next: (data) => setPosts([...data.items])
+    // },{ authMode: 'apiKey' })
   }, []);
 
   function createTodo() {
@@ -53,7 +53,13 @@ function App() {
   }
 
   function createPost() {
-    client.models.Post.create({ content: window.prompt("Post content") });
+    client.models.Post.create({ 
+      content: window.prompt("Post content"),
+      // authMode: 'apiKey',
+    },
+    {
+      authMode: 'userPool'
+    })
   }
 
   // useEffect(() => {
@@ -105,11 +111,7 @@ function App() {
         
         <h2>Posts</h2>
         <button onClick={createPost}>+ new</button>
-        <ul>
-          {posts.map((post) => (
-            <li key={post.id}>{post.content}</li>
-          ))}
-        </ul>
+        <Posts />
       </div>
 
       <Divider variant="middle" style={{ backgroundColor: "#fff" }} /> 

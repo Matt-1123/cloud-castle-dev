@@ -19,12 +19,13 @@ import outputs from "../../amplify_outputs.json"
 
 Amplify.configure(outputs);
 
+const client = generateClient<Schema>({
+  authMode: 'apiKey',
+})
 
-const client = generateClient<Schema>()
-
-export default function LogList() {
+export default function Posts() {
   // const [logs, setLogs] = useState<Schema["Log"]["type"][]>([]);
-  // const [logs, setLogs] = useState<Array<Schema["Log"]["type"]>>([]);
+  const [posts, setPosts] = useState<Array<Schema["Post"]["type"]>>([]);
 
   // console.log(`logs: ${JSON.stringify(logs)}`)
 
@@ -32,13 +33,13 @@ export default function LogList() {
   //   const { data: items, errors } = await client.models.Log.list();
   //   setLogs(items);
   // };
+  useEffect(() => {
+  client.models.Post.observeQuery().subscribe({
+      next: (data) => setPosts([...data.items])
+    },)
+  }, []);
 
   return (<>
-    <form>
-      <label>Enter a log: 
-        <input type="text" />
-      </label>
-    </form>
     {/* <Button onClick={createLog}>Submit Log</Button> */}
     <div className="card">
       <TableContainer component={Paper}>
@@ -50,12 +51,12 @@ export default function LogList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {logs.map(({ id, content, createdAt }) => (
+            {posts.map(({ id, content, createdAt }) => (
               <TableRow key={id}>
                 <TableCell>{createdAt}</TableCell>
                 <TableCell>{content}</TableCell>
               </TableRow>
-            ))} */}
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
