@@ -8,6 +8,7 @@ import scrollIcon from '../assets/icons/scroll.png';
 import Header from '../components/Header'
 // Auth
 import { Amplify } from 'aws-amplify';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import outputs from "../../amplify_outputs.json";
 import type { Schema } from '../../amplify/data/resource'
@@ -17,16 +18,20 @@ const client = generateClient<Schema>()
 Amplify.configure(outputs);
 
 function Profile() {
-  const [gold, setGold] = useState()
+  // const [userprofiles, setUserProfiles] = useState([]);
+  const [userProfiles, setUserProfiles] = useState<Array<Schema["UserProfile"]["type"]>>([]);
   
-  
+
   useEffect(() => {
-    client.models.User.observeQuery().subscribe({
-      next: (data) => 
-        console.log(JSON.stringify(data.items))
-        // setGold(data.items.values[0]),
-    });
+    fetchUserProfile();
   }, []);
+
+  async function fetchUserProfile() {
+    const { data: profiles } = await client.models.UserProfile.list();
+    setUserProfiles(profiles);
+  }
+  
+  const gold = userProfiles[0].gold;
 
   return (
     <>
