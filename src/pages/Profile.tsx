@@ -31,14 +31,12 @@ function Profile() {
     setUserProfiles(profiles);
   }
   
-  const gold = userProfiles[0].gold;
-
   return (
     <>
       <Header />
       <div className="card">
         <img className="icon-lg" src={scrollIcon} alt="scroll icon" />
-        <p>Gold: {gold}</p>
+        <p>Gold: {userProfiles[0]? userProfiles[0].gold : '0'}</p>
         <h2>Bio</h2>
         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa delectus mollitia sint rerum eveniet, doloremque ipsa, alias animi qui nemo nobis officiis. Placeat, ab pariatur. Doloribus laudantium aperiam alias veniam temporibus ullam animi. Accusantium nisi expedita fuga facere non sit.</p>
       </div>
