@@ -1,7 +1,8 @@
 import React from 'react';
+import '../App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useState, useEffect } from "react";
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 
 //table
 import Table from '@mui/material/Table';
@@ -23,7 +24,11 @@ const client = generateClient<Schema>()
 
 export default function Posts() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-  
+
+  function deleteTodo(id: string) {
+    client.models.Todo.delete({ id })
+  }
+
   useEffect(() => {
     client.models.Todo.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
@@ -38,7 +43,8 @@ export default function Posts() {
           <TableHead>
             <TableRow>
               <TableCell>Date</TableCell>
-              <TableCell >Task</TableCell>
+              <TableCell >Task</TableCell>              
+              <TableCell >Mark Complete</TableCell>              
             </TableRow>
           </TableHead>
           <TableBody>
@@ -46,6 +52,9 @@ export default function Posts() {
               <TableRow key={id}>
                 <TableCell>{createdAt}</TableCell>
                 <TableCell>{content}</TableCell>
+                <TableCell>
+                  <button onClick={() => deleteTodo(id)}>Completed</button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
