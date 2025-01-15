@@ -8,10 +8,10 @@ import gateIcon from '../assets/icons/gate.png';
 import wizardIcon from '../assets/icons/wizard.png';
 //components
 import Header from '../components/Header'
+import Posts from '../components/Posts'
+import Todos from '../components/Todos'
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-// Logs
-import Logs from '../components/Logs'
 // Auth
 import { Amplify } from 'aws-amplify';
 import { useAuthenticator } from '@aws-amplify/ui-react';
@@ -27,24 +27,19 @@ Amplify.configure(outputs);
 function App() {
   const [count, setCount] = useState(0)
   console.log('count', count)
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  // const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
   // const [name, setName] = useState<Schema["User"]["type"][]>([])
-  console.log(`name: ${JSON.stringify(name)}`);
 
   const thumbnail = document.querySelectorAll(".thumbnail")
 
-  function deleteTodo(id: string) {
-    client.models.Todo.delete({ id })
-  }
-
-  useEffect(() => {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
-    });
-  }, []);
-
   function createTodo() {
     client.models.Todo.create({ content: window.prompt("Todo content") });
+  }
+
+  function createPost() {
+    client.models.Post.create({ 
+      content: window.prompt("Post content")
+    })
   }
 
   // useEffect(() => {
@@ -85,20 +80,18 @@ function App() {
         <p>Testing site for AWS training</p>
       </div>
       
-      <Divider variant="middle" style={{ backgroundColor: "#fff" }} />
-
       <div className="card">
         <h2>Todos</h2>
         <button onClick={createTodo}>+ new</button>
-        <ul>
-          {todos.map((todo) => (
-            <li onClick={() => deleteTodo(todo.id)} key={todo.id}>{todo.content}</li>
-          ))}
-        </ul>
-        {/* <Button onClick={createLog}>Submit Log (home pag test)</Button> */}
-
-        {/* <Logs /> */}
+        <Todos />
+        
+        <h2>Posts</h2>
+        <button onClick={createPost}>+ new</button>
+        <Posts />
       </div>
+
+      <Divider variant="middle" style={{ backgroundColor: "#fff" }} /> 
+      
     </>
   )
 }

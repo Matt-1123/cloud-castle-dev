@@ -1,7 +1,8 @@
 import React from 'react';
+import '../App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useState, useEffect } from "react";
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 
 //table
 import Table from '@mui/material/Table';
@@ -19,26 +20,22 @@ import outputs from "../../amplify_outputs.json"
 
 Amplify.configure(outputs);
 
-
 const client = generateClient<Schema>()
 
-export default function LogList() {
-  // const [logs, setLogs] = useState<Schema["Log"]["type"][]>([]);
-  // const [logs, setLogs] = useState<Array<Schema["Log"]["type"]>>([]);
+export default function Posts() {
+  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
-  // console.log(`logs: ${JSON.stringify(logs)}`)
+  function deleteTodo(id: string) {
+    client.models.Todo.delete({ id })
+  }
 
-  // const fetchLogs = async () => {
-  //   const { data: items, errors } = await client.models.Log.list();
-  //   setLogs(items);
-  // };
+  useEffect(() => {
+    client.models.Todo.observeQuery().subscribe({
+      next: (data) => setTodos([...data.items]),
+    });
+  }, []);
 
   return (<>
-    <form>
-      <label>Enter a log: 
-        <input type="text" />
-      </label>
-    </form>
     {/* <Button onClick={createLog}>Submit Log</Button> */}
     <div className="card">
       <TableContainer component={Paper}>
@@ -46,16 +43,20 @@ export default function LogList() {
           <TableHead>
             <TableRow>
               <TableCell>Date</TableCell>
-              <TableCell >Description</TableCell>
+              <TableCell >Task</TableCell>              
+              <TableCell >Mark Complete</TableCell>              
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {logs.map(({ id, content, createdAt }) => (
+            {todos.map(({ id, content, createdAt }) => (
               <TableRow key={id}>
                 <TableCell>{createdAt}</TableCell>
                 <TableCell>{content}</TableCell>
+                <TableCell>
+                  <button onClick={() => deleteTodo(id)}>Completed</button>
+                </TableCell>
               </TableRow>
-            ))} */}
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
