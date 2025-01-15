@@ -6,3 +6,6 @@
 
 ## Backend
 * AWS Amplify
+
+## Integrations
+* Alexa [WIP]
