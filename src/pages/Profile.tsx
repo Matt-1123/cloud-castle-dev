@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { useState, useEffect } from 'react';
 import '../App.css';
 // icons
@@ -6,6 +7,7 @@ import '../App.css';
 import scrollIcon from '../assets/icons/scroll.png';
 //components
 import Header from '../components/Header'
+import Button from '@mui/material/Button';
 // Auth
 import { Amplify } from 'aws-amplify';
 import '@aws-amplify/ui-react/styles.css';
@@ -18,12 +20,23 @@ Amplify.configure(outputs);
 
 function Profile() {
   const [gold, setGold] = useState()
-  
+  const [lwaData, setlwaData] = useState([]);
+
+  // https://developer.amazon.com/en-US/docs/alexa/account-linking/app-to-app-account-linking-starting-from-your-app.html#step-4
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('https://jsonplaceholder.typicode.com/todos/1');
+      setlwaData(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
   
   useEffect(() => {
     client.models.User.observeQuery().subscribe({
       next: (data) => 
-        console.log(JSON.stringify(data.items))
+        console.log("data", JSON.stringify(data.items))
         // setGold(data.items.values[0]),
     });
   }, []);
@@ -36,6 +49,11 @@ function Profile() {
         <p>Gold: {gold}</p>
         <h2>Bio</h2>
         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa delectus mollitia sint rerum eveniet, doloremque ipsa, alias animi qui nemo nobis officiis. Placeat, ab pariatur. Doloribus laudantium aperiam alias veniam temporibus ullam animi. Accusantium nisi expedita fuga facere non sit.</p>
+      </div>
+      <div className="card">
+        <Button variant="outlined" color="primary" className="btn" onClick={() => fetchData()}>
+          Link with Alexa
+        </Button>
       </div>
     </> 
   )
