@@ -28,6 +28,10 @@ export default function Posts() {
   function deleteTodo(id: string) {
     client.models.Todo.delete({ id })
   }
+  
+  const editTodo = (id: string) => {
+    client.models.Todo.update({ id, content: window.prompt("update your to-do") })
+  }
 
   useEffect(() => {
     client.models.Todo.observeQuery().subscribe({
@@ -44,7 +48,7 @@ export default function Posts() {
             <TableRow>
               <TableCell>Date</TableCell>
               <TableCell >Task</TableCell>              
-              <TableCell >Mark Complete</TableCell>              
+              <TableCell ></TableCell>              
             </TableRow>
           </TableHead>
           <TableBody>
@@ -52,7 +56,8 @@ export default function Posts() {
               <TableRow key={id}>
                 <TableCell>{createdAt}</TableCell>
                 <TableCell>{content}</TableCell>
-                <TableCell>
+                <TableCell className="table-right">
+                  <button onClick={() => editTodo(id)}>Edit</button>
                   <button onClick={() => deleteTodo(id)}>Completed</button>
                 </TableCell>
               </TableRow>

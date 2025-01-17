@@ -61,6 +61,15 @@ button:focus-visible {
   width: 8rem;
 }
 
+/* Table customization */
+.table-right {
+  text-align: right!important;
+}
+
+.table-right button {
+  margin-left: .5em;
+}
+
 /* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
