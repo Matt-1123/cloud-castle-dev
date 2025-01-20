@@ -61,6 +61,10 @@ button:focus-visible {
   width: 8rem;
 }
 
+.icon-sm {
+  width: 1.1em;
+}
+
 /* Table customization */
 .table-right {
   text-align: right!important;
