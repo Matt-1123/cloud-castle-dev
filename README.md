@@ -5,7 +5,7 @@
 * Material UI
 
 ## Backend
-* AWS Amplify
+* AWS Amplify - DynamoDB, GraphQL, Cognito
 
 ## Integrations
 * Alexa [WIP]
