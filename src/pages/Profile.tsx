@@ -25,10 +25,17 @@ function Profile() {
   const [lwaData, setlwaData] = useState([]);
 
   // https://developer.amazon.com/en-US/docs/alexa/account-linking/app-to-app-account-linking-starting-from-your-app.html#step-4
-  const fetchData = async () => {
+  const fetchData = async () => {    
+
     try {
-      const response = await axios.get('https://jsonplaceholder.typicode.com/todos/1');
-      setlwaData(response.data);
+      
+      // const response = await axios.get('https://jsonplaceholder.typicode.com/todos/1');
+      const response = await axios({
+        method: 'get',
+        url: `/api`,
+        withCredentials: false,
+      })
+      // setlwaData(response.data);
       console.log(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
