@@ -1,5 +1,9 @@
-import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { type ClientSchema, a, defineData, defineFunction } from "@aws-amplify/backend";
 import { postConfirmation } from "../auth/post-confirmation/resource";
+
+const goldHandler = defineFunction({
+  entry: './goldHandler/handler.ts'
+})
 
 const schema = a.schema({
   UserProfile: a
@@ -11,6 +15,30 @@ const schema = a.schema({
     .authorization((allow) => [
       allow.ownerDefinedIn("profileOwner"),
     ]),
+  // 2. Define your mutation with the return type and, optionally, arguments
+  addGold: a
+    .mutation()
+    // arguments that this query accepts
+    .arguments({
+      goldAmount: a.integer()
+    })
+    // return type of the query
+    .returns(a.ref('UserProfile'))
+    // only allow signed-in users to call this API
+    .authorization(allow => [allow.authenticated()])
+    .handler(a.handler.custom({
+      dataSource: a.ref('UserProfile'),
+      entry: './goldHandler/handler.ts'
+    })),
+  likePost: a
+    .mutation()
+    .arguments({ postId: a.id() })
+    .returns(a.ref('Post'))
+    .authorization(allow => [allow.authenticated()])
+    .handler(a.handler.custom({
+      dataSource: a.ref('Post'),
+      entry: './increment-like.js'
+    })),
   Todo: a
     .model({
       content: a.string(),
@@ -20,7 +48,7 @@ const schema = a.schema({
     .model({
       name: a.string(),
       bio: a.string(),
-      gold: a.integer().default(0).authorization(allow => [allow.owner().to(['read']),]),
+      gold: a.integer().default(0).authorization(allow => [allow.owner()]),
     })
     .authorization((allow) => [allow.publicApiKey().to(['read']), allow.owner(),]),
   Post: a
@@ -33,9 +61,10 @@ const schema = a.schema({
       // Allow signed-in user to create, read, update,
       // and delete their __OWN__ posts.
       allow.owner(),
-    ])
+    ]),
 })
-.authorization((allow) => [allow.resource(postConfirmation)]);
+.authorization((allow) => [allow.resource(postConfirmation)])
+
 
 export type Schema = ClientSchema<typeof schema>;
 

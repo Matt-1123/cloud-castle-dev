@@ -36,24 +36,27 @@ function Profile() {
   };
 
   useEffect(() => {
-    client.models.User.observeQuery().subscribe({
+    client.models.UserProfile.observeQuery().subscribe({
       next: (data) => 
-        console.log("data", JSON.stringify(data.items))
-        // setGold(data.items.values[0]),
+        // console.log("data", JSON.stringify(data.items[0])),
+        setUserProfiles(data.items)
+        // example response:
+        //data [{"id":<string>,"email": <string>,"profileOwner": <string>, "gold": <int>,"createdAt":"2025-01-12T22:54:15.183Z","updatedAt":"2025-01-12T22:54:15.183Z"}]
     });
   }, []);
 
-  async function fetchUserProfile() {
-    const { data: profiles } = await client.models.UserProfile.list();
-    setUserProfiles(profiles);
-  }
+  // Alternative to observeQuery (subscription)
+  // async function fetchUserProfile() {
+  //   const { data: profiles } = await client.models.UserProfile.list();
+  //   setUserProfiles(profiles);
+  // }
   
   return (
     <>
       <Header />
       <div className="card">
         <img className="icon-lg" src={scrollIcon} alt="scroll icon" />
-        <p>Gold: {userProfiles[0]? userProfiles[0].gold : '0'}</p>
+        <p>Gold: {userProfiles[0]? userProfiles[0].gold : ""}</p>
         <h2>Bio</h2>
         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa delectus mollitia sint rerum eveniet, doloremque ipsa, alias animi qui nemo nobis officiis. Placeat, ab pariatur. Doloribus laudantium aperiam alias veniam temporibus ullam animi. Accusantium nisi expedita fuga facere non sit.</p>
       </div>
